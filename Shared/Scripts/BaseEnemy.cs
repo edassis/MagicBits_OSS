@@ -25,7 +25,7 @@ namespace MagicBits_OSS.Shared.Scripts
         // Update is called once per frame
         public virtual void Update()
         {
-        
+
         }
 
         public virtual void FixedUpdate()
@@ -48,6 +48,7 @@ namespace MagicBits_OSS.Shared.Scripts
         {
             health -= damage;
             Debug.Log(health);
+            Debug.Log(health); // Duplicado.
         }
 
         public virtual int GetHealth()
