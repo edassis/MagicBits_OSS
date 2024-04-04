@@ -47,8 +47,6 @@ namespace MagicBits_OSS.Shared.Scripts
         public virtual void Hit(int damage)
         {
             health -= damage;
-            Debug.Log(health);
-            Debug.Log(health); // Duplicado.
         }
 
         public virtual int GetHealth()
