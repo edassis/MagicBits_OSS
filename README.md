@@ -20,7 +20,7 @@ Ferramenta utilizada para edição externa dos Banco de Dados. Como este não of
 
 Organizado em estrutura de árvore. O jogador sempre é quem inicia o diálogo. Cada ramificação representa uma possível linha de diálogo entre o **Player** e o **NPC** em questão, este podendo assumir diferentes nomes (e.g., *Woman*).
 
-No projeto `Minigame_2_2_1_Level1_TalkerMaker.json` existe a *Conversation* entitulada de *Woman*. Essa conversa
+No projeto `Minigame_2_x-Level1-TalkerMaker.json` existe a *Conversation* entitulada de *Woman*. Essa conversa
 representa um diálogo linear (somente 1 linha de diálogo) em que o jogador inicia a interação e é sempre o **NPC** quem fala (*nodes* com **NPC** como *Actor*).
 
 [//]: # (TODO: Conferir padrão de diretórios.)
@@ -49,14 +49,14 @@ Foi utilizado a mesma arquitetura dos diálogos para as questões. Porém, a esc
 #### Exportando DB e atualizando pacote SCORM
 
 1. Garanta que as alterações no projeto foram salvas (olhe as observações abaixo).
-1. Vá em `Files -> Export to Chat Mapper XML` e salve o arquivo `.xml` no padrão `<minigameName>_<levelName>_DB.xml` (apresentado pela interface de Debug em jogo).
-1. Descompacte o `.zip` do pacote SCORM referente ao minigame cujo é desejado alterar o DB (`<minigameName>_<levelName>_SCORM.zip`).
+1. Vá em `Files -> Export to Chat Mapper XML` e salve o arquivo `.xml` no padrão `<minigameName>-<levelName>-DB.xml` (apresentado pela interface de Debug em jogo).
+1. Descompacte o `.zip` do pacote SCORM referente ao minigame cujo é desejado alterar o DB (`<minigameName>-<levelName>-SCORM.zip`).
 
     ![](Docs/Images/extract.png)
 
-1. Acesse a pasta descompactada e vá em `Resources`. Dentro deve conter o arquivo `<minigameName>_<levelName>_DB.xml` que se deseja substituir.
+1. Acesse a pasta descompactada e vá em `Resources`. Dentro deve conter o arquivo `<minigameName>-<levelName>-DB.xml` que se deseja substituir.
 1. Substitua o arquivo pelo novo exportado no *TalkerMaker*, garanta que o nome continue o mesmo.
-1. Volte para onde se encontra a pasta `<minigameName>_<levelName>_SCORM` e gere um novo `.zip` de mesmo nome (agora com o novo DB).
+1. Volte para onde se encontra a pasta `<minigameName>-<levelName>-SCORM` e gere um novo `.zip` de mesmo nome (agora com o novo DB).
 
     ![](Docs/Images/compress.png)
 

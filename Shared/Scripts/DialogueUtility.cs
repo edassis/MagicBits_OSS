@@ -15,12 +15,13 @@ namespace MagicBits_OSS.Shared.Scripts
     [AddComponentMenu("MagicBits/Dialogue/Dialogue Utility")]
     public class DialogueUtility : MonoBehaviour
     {
-        public static Action OnImported;
-        public static Action OnDataBaseReady;
-
-        public static bool hasInstance => s_instance != null;
+        public static event Action OnImported;
+        public static event Action OnDataBaseReady;
 
         public static bool isDataBaseReady { get; private set; } = false;
+
+        [Tooltip("Prioriza DB externo no editor (no export, o DB externo é sempre priorizado).")]
+        public bool prioritizeExternalDB;
 
         public class Question
         {
@@ -38,6 +39,10 @@ namespace MagicBits_OSS.Shared.Scripts
                 if (!_instance)
                 {
                     _instance = FindObjectOfType<DialogueUtility>();
+                    if (!_instance)
+                    {
+                        throw new ApplicationException("DialogueUtility instance not found.");
+                    }
                 }
 
                 return _instance;
@@ -51,9 +56,6 @@ namespace MagicBits_OSS.Shared.Scripts
         /// Active scene's name.
         /// </summary>
         private static string m_levelName = "";
-
-        [Tooltip("Prioriza DB externo no editor (no export, o DB externo é sempre priorizado).")]
-        public bool prioritizeExternalDB;
 
         private bool m_useExternalDB = false;
 
@@ -109,36 +111,56 @@ namespace MagicBits_OSS.Shared.Scripts
         {
             yield return new WaitUntil(() => isDataBaseReady);
 
-            var ans = new List<Question>();
-
             var masterDatabase = DialogueManager.instance.masterDatabase;
-            PixelCrushers.DialogueSystem.Conversation conversation = null;
+            PixelCrushers.DialogueSystem.Conversation externalConversation = null;
+            PixelCrushers.DialogueSystem.Conversation internalConversation = null;
+            List<Question> questions = new();
 
             if (s_instance.m_useExternalDB)
             {
                 // Search for imported conversation's variant.
-                conversation = masterDatabase.GetConversation(conversationName + "_RT");
-                if (conversation == null && s_isUnityEditor)
+                externalConversation = masterDatabase.GetConversation(conversationName + "_RT");
+                if (externalConversation != null)
+                {
+                    questions.AddRange(RetrieveQuestionsFromConversation(externalConversation));
+                }
+                else
                 {
                     UnityEngine.Debug.LogWarning(
-                        $"{s_instance.gameObject.name}: \"{conversationName}\" não foi encontrado no DB externo.");
+                        $"{s_instance.gameObject.name}: '{conversationName}' not found in external DB.");
                 }
             }
 
-            // Search in intern DB.
-            if (conversation == null) conversation = masterDatabase.GetConversation(conversationName);
-
-            if (conversation == null)
+            // Search in internal DB.
+            internalConversation = masterDatabase.GetConversation(conversationName);
+            if (internalConversation != null)
             {
-                UnityEngine.Debug.LogError($"{s_instance.gameObject.name}: Conversa ({conversationName}) não foi encontrada no DB!");
+                questions.AddRange(RetrieveQuestionsFromConversation(internalConversation));
+            }
+            else
+            {
+                UnityEngine.Debug.LogWarning(
+                    $"{s_instance.gameObject.name}: '{conversationName}' not found in internal DB.");
+            }
+
+            if (questions.Count == 0)
+            {
+                UnityEngine.Debug.LogError(
+                    $"{s_instance.gameObject.name}: Conversation '{conversationName}' not found!");
                 yield break;
             }
 
+            callback(questions);
+        }
+
+        private static List<Question> RetrieveQuestionsFromConversation(
+            PixelCrushers.DialogueSystem.Conversation conversation)
+        {
             // For each node in conversation:
             //      - Retrieve the nodes' sequence and dialogue text
             //      - Confirm the node calls the correct audio file (check sequence)
             var dialogues = new Dictionary<int, string>();
-            var linksTo = new Dictionary<int, int>();
+            var QtoALinks = new Dictionary<int, int>();
             foreach (var dialogueEntry in conversation.dialogueEntries.Where(dialogueEntry => dialogueEntry.id != 0))
             {
                 //Debug.Log($"[{dialogueEntry.id}]: {dialogueEntry.DialogueText}");
@@ -147,16 +169,22 @@ namespace MagicBits_OSS.Shared.Scripts
 
                 foreach (var link in dialogueEntry.outgoingLinks)
                 {
+                    // We are interested in the links that go from a question to an answer.
+                    // Q -> A -x
+                    // NOTE: Without some tagging mechanism to make clear which node is a question and which is an answer,
+                    // we cannot have multiple nodes as answers deriving from the same question node as we wouldn't be able
+                    // to differentiate them.
+
                     //Debug.Log($"Link para: {link.destinationDialogueID}");
-                    linksTo.Add(link.originDialogueID, link.destinationDialogueID);
+                    QtoALinks.Add(link.originDialogueID, link.destinationDialogueID);
                 }
             }
 
-            // Para cada link:
-            // - Key: uma pergunta
-            // - Value: string com respostas
-            var answersRaw = new Dictionary<int, string>(); // Valores ainda não foram tratados (num;num;...)
-            foreach (var link in linksTo)
+            // For each link:
+            // - Key: question
+            // - Value: answers
+            var questions = new List<Question>();
+            foreach (var link in QtoALinks)
             {
                 var question = new Question();
                 question.text = dialogues[link.Key];
@@ -165,7 +193,7 @@ namespace MagicBits_OSS.Shared.Scripts
                 answersSplitted.ForEach(delegate(string s) { s = s.Trim(); });
 
                 question.answers = answersSplitted;
-                ans.Add(question);
+                questions.Add(question);
             }
 
             //foreach (var each in ret)
@@ -176,7 +204,8 @@ namespace MagicBits_OSS.Shared.Scripts
             //        Debug.Log(ans);
             //    }
             //}
-            callback(ans);
+
+            return questions;
         }
 
         private static IEnumerator ImportChatMapperXML()
@@ -184,9 +213,9 @@ namespace MagicBits_OSS.Shared.Scripts
             // Como a aplicação roda no WebGl, classes ao sistema de arquivos não funcionam (System.IO),
             // como File, Path, Directory. Isso foi exaustivamente testado. Provavelmente, devido
             // aos arquivos estarem hospedados num servidor http.
-            string path = $"./{s_minigameName}/{m_levelName}/Resources/{s_minigameName}_{m_levelName}_DB.xml";
+            string path = $"./{s_minigameName}/{m_levelName}/Resources/{s_minigameName}-{m_levelName}-DB.xml";
 #if UNITY_WEBGL && !UNITY_EDITOR
-        yield return s_instance.StartCoroutine(GetTextFromWeb(path, ImportChatMapperRoutine));
+            yield return s_instance.StartCoroutine(GetTextFromWeb(path, ImportChatMapperRoutine));
 #elif UNITY_EDITOR
             yield return null;
             path = Path.Combine(Application.dataPath, "../Build", path);
@@ -199,14 +228,15 @@ namespace MagicBits_OSS.Shared.Scripts
             }
             catch (IOException ex)
             {
-                UnityEngine.Debug.LogWarning($"{s_instance.gameObject.name}: Não foi possível carregar o DB no caminho: {path} ({ex.GetType().ToString()})");
+                UnityEngine.Debug.LogWarning(
+                    $"{s_instance.gameObject.name}: Não foi possível carregar o DB no caminho: {path} ({ex.GetType().ToString()})");
                 yield break;
             }
 #else
-        Utilities.Log($"{s_instance.gameObject.name}: Import method not specified for this platform.");
-        yield break;
+            Utilities.Log($"{s_instance.gameObject.name}: Import method not specified for this platform.");
+            yield break;
 #endif
-            UnityEngine.Debug.Log($"{s_instance.gameObject.name}: Successfully imported Dialogue Databases.");
+            Utilities.Log($"{s_instance.gameObject.name}: Successfully imported Dialogue Databases.");
             OnImported?.Invoke();
         }
 

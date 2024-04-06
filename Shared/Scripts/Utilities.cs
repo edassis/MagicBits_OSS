@@ -198,11 +198,13 @@ namespace MagicBits_OSS.Shared.Scripts
 
         #region Log
 
+        // TODO: Separate message severity (log, warn, error) from scope (editor, release).
         public enum LogLevel
         {
-            Debug,
+            Default,
             Editor,
-            Default
+            Debug,
+            Warn,
         }
 
         public static void Log(object message, LogLevel level = LogLevel.Debug)
@@ -217,21 +219,26 @@ namespace MagicBits_OSS.Shared.Scripts
                     break;
             }
 
-            string msg = "LogLevel";
+            string lv = "LogLevel";
+            string cl = "White";
             switch (level)
             {
+                case LogLevel.Warn:
+                    lv = "Warn";
+                    cl = "Yellow";
+                    break;
                 case LogLevel.Debug:
-                    msg = "Debug";
+                    lv = "Debug";
                     break;
                 case LogLevel.Editor:
-                    msg = "Editor";
+                    lv = "Editor";
                     break;
                 case LogLevel.Default:
-                    msg = "Default";
+                    lv = "Default";
                     break;
             }
 
-            string str = $"{$"[{msg}]".Color("Yellow")} {message}";
+            string str = $"{$"[{lv}]".Color(cl)} {message}";
             UnityEngine.Debug.Log(str);
         }
 

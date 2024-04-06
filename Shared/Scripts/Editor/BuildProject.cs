@@ -51,7 +51,7 @@ namespace MagicBits_OSS.Shared.Scripts.Editor
                 if (summary.result == BuildResult.Succeeded)
                 {
                     UnityEngine.Debug.Log("Build succeeded: " + summary.totalSize + " bytes");
-                    ScormPostprocessor.GenerateScorm(buildPath, $"{minigameName}_{levelName}");
+                    ScormPostprocessor.GenerateScorm(buildPath, $"{minigameName}-{levelName}");
                 }
 
                 if (summary.result == BuildResult.Failed)
@@ -85,7 +85,7 @@ namespace MagicBits_OSS.Shared.Scripts.Editor
             buildPlayerOptions.scenes = new[]
             {
                 $"{m_minigameParentDir}/Shared/Scenes/SelectIsland.unity",
-                $"{scenesPath}/evel1.unity"
+                $"{scenesPath}/Level1.unity"
             };
             buildPlayerOptions.locationPathName = buildPath;
             buildPlayerOptions.target = BuildTarget.WebGL;
