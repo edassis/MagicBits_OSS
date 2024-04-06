@@ -8,6 +8,17 @@ namespace MagicBits_OSS.Shared.Scripts
 {
     public class BasePlayer : MonoBehaviour
     {
+        /*
+         It is very important to notice that in both cases the event keyword is used to declare the event member.
+         An event member declared this way is not simply a field of the class, despite it looks as if it was.
+         Instead, the compiler creates it as an event property1. The event properties are similar to regular
+         properties, except that they do not have get or set accessors. The compiler allows them to be used only on the
+         left side of a += and -= assignments (adding or removing an event handler). There is no way to overwrite the
+         already assigned event handlers, or to invoke the event outside the class that declares it.
+         https://stackoverflow.com/a/22878784/8903027
+         */
+        public static event Action OnKill;
+
         // Fields
         public float speedMovement = 5f;
         public float jumpForce = 15f;
@@ -69,12 +80,12 @@ namespace MagicBits_OSS.Shared.Scripts
                 Kill(timeDeadNormal);
                 // GameController_2_2_1.IncrementFails();
             }
-            else if(col.gameObject.tag == "MovingPlatform")
+            else if (col.gameObject.tag == "MovingPlatform")
             {
                 transform.parent = col.transform;
             }
         }
-    
+
         public virtual void OnCollisionExit2D(Collision2D col)
         {
             if (!isActive) return;
@@ -84,7 +95,7 @@ namespace MagicBits_OSS.Shared.Scripts
                 Kill(timeDeadNormal);
                 // GameController_2_2_1.IncrementFails();
             }
-            else if(col.gameObject.tag == "MovingPlatform")
+            else if (col.gameObject.tag == "MovingPlatform")
             {
                 transform.parent = null;
             }
@@ -232,7 +243,7 @@ namespace MagicBits_OSS.Shared.Scripts
                 GameController_2_2_1.PlaySound(deathSound);
 
             yield return new WaitForSeconds(timeToDead);
-            GameController_2_2_1.ReloadScene();
+            OnKill?.Invoke();
         }
 
         // Define se o jogador pode se mover
@@ -241,7 +252,7 @@ namespace MagicBits_OSS.Shared.Scripts
             rb.constraints = value
                 ? rb.constraints & ~RigidbodyConstraints2D.FreezePositionX
                 : rb.constraints | RigidbodyConstraints2D.FreezePositionX;
-        
+
             canMove = value;
         }
 
