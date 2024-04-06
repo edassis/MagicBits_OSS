@@ -2,7 +2,168 @@
 <ChatMapperProject xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Title="TalkerMakerDeluxe Database" Version="1.0.0" Author="Large Chung" EmphasisColor1Label="" EmphasisColor1="#ffffff" EmphasisStyle1="---" EmphasisColor2Label="" EmphasisColor2="#ff0000" EmphasisStyle2="---" EmphasisColor3Label="" EmphasisColor3="#00ff00" EmphasisStyle3="---" EmphasisColor4Label="" EmphasisColor4="#0000ff" EmphasisStyle4="---">
   <Description></Description>
   <UserScript />
-  <Assets><Actors><Actor ID="1"><Fields><Field Type="Text"><Title>Name</Title><Value>Player</Value></Field><Field Type="Text"><Title>Description</Title><Value></Value></Field><Field Type="Number"><Title>Age</Title><Value></Value></Field><Field Type="Text"><Title>Gender</Title><Value></Value></Field><Field Type="Boolean"><Title>IsPlayer</Title><Value>true</Value></Field><Field Type="Files"><Title>Pictures</Title><Value>[]</Value></Field></Fields></Actor><Actor ID="2"><Fields><Field Type="Text"><Title>Name</Title><Value>NPC</Value></Field><Field Type="Text"><Title>Description</Title><Value></Value></Field><Field Type="Number"><Title>Age</Title><Value></Value></Field><Field Type="Text"><Title>Gender</Title><Value></Value></Field><Field Type="Boolean"><Title>IsPlayer</Title><Value>false</Value></Field><Field Type="Files"><Title>Pictures</Title><Value>[]</Value></Field></Fields></Actor></Actors><Items><Item ID="0"><Fields><Field Type="Text"><Title>Name</Title><Value>New Item</Value></Field><Field Type="Text"><Title>Description</Title><Value></Value></Field><Field Type="Boolean"><Title>InInventory</Title><Value>false</Value></Field></Fields></Item></Items><Locations><Location ID="0"><Fields><Field Type="Text"><Title>Name</Title><Value>New Location</Value></Field><Field Type="Text"><Title>Description</Title><Value></Value></Field><Field Type="Boolean"><Title>Learned</Title><Value>false</Value></Field><Field Type="Boolean"><Title>Visited</Title><Value>false</Value></Field></Fields></Location></Locations><Conversations><Conversation ID="0"><Fields><Field Type="Text"><Title>Title</Title><Value>CookPuzzle</Value></Field><Field Type="Text"><Title>Description</Title><Value>A new conversation</Value></Field><Field Type="Actor"><Title>Actor</Title><Value>1</Value></Field><Field Type="Actor"><Title>Conversant</Title><Value>1</Value></Field><Field Type="Files"><Title>Pictures</Title><Value>[]</Value></Field></Fields><DialogEntries><DialogEntry ID="0" IsRoot="true" IsGroup="false" FalseConditionAction=""><Fields><Field Type="Text"><Title>Title</Title><Value>START</Value></Field><Field Type="Actor"><Title>Actor</Title><Value>1</Value></Field><Field Type="Actor"><Title>Conversant</Title><Value>1</Value></Field><Field Type="Text"><Title>Menu Text</Title><Value></Value></Field><Field Type="Text"><Title>Dialogue Text</Title><Value></Value></Field><Field Type="Text"><Title>Sequence</Title><Value></Value></Field><Field Type="Files"><Title>Pictures</Title><Value>[]</Value></Field><Field Type="Text"><Title>canvasRect</Title><Value>32;24</Value></Field></Fields><ConditionsString></ConditionsString><UserScript></UserScript><OutgoingLinks><Link ConversationID="0" OriginConvoID="0" DestinationConvoID="0" OriginDialogID="0" DestinationDialogID="1" IsConnector="false" /></OutgoingLinks></DialogEntry><DialogEntry ID="1" IsRoot="false" IsGroup="false" FalseConditionAction="Block"><Fields><Field Type="Text"><Title>Title</Title><Value></Value></Field><Field Type="Actor"><Title>Actor</Title><Value>2</Value></Field><Field Type="Actor"><Title>Conversant</Title><Value>1</Value></Field><Field Type="Text"><Title>Menu Text</Title><Value></Value></Field><Field Type="Text"><Title>Dialogue Text</Title><Value>a = 3/2</Value></Field><Field Type="Text"><Title>Sequence</Title><Value></Value></Field><Field Type="Files"><Title>Pictures</Title><Value>[]</Value></Field><Field Type="Text"><Title>canvasRect</Title><Value>32;82,8</Value></Field></Fields><ConditionsString></ConditionsString><UserScript></UserScript><OutgoingLinks><Link ConversationID="0" OriginConvoID="0" DestinationConvoID="0" OriginDialogID="1" DestinationDialogID="2" IsConnector="false" /></OutgoingLinks></DialogEntry><DialogEntry ID="2" IsRoot="false" IsGroup="false" FalseConditionAction="Block"><Fields><Field Type="Text"><Title>Title</Title><Value></Value></Field><Field Type="Actor"><Title>Actor</Title><Value>1</Value></Field><Field Type="Actor"><Title>Conversant</Title><Value>2</Value></Field><Field Type="Text"><Title>Menu Text</Title><Value></Value></Field><Field Type="Text"><Title>Dialogue Text</Title><Value>MAIN: li t0,3
+  <Assets><Actors><Actor ID="1"><Fields><Field Type="Text"><Title>Name</Title><Value>Player</Value></Field><Field Type="Text"><Title>Description</Title><Value></Value></Field><Field Type="Number"><Title>Age</Title><Value></Value></Field><Field Type="Text"><Title>Gender</Title><Value></Value></Field><Field Type="Boolean"><Title>IsPlayer</Title><Value>true</Value></Field><Field Type="Files"><Title>Pictures</Title><Value>[]</Value></Field></Fields></Actor><Actor ID="2"><Fields><Field Type="Text"><Title>Name</Title><Value>NPC</Value></Field><Field Type="Text"><Title>Description</Title><Value></Value></Field><Field Type="Number"><Title>Age</Title><Value></Value></Field><Field Type="Text"><Title>Gender</Title><Value></Value></Field><Field Type="Boolean"><Title>IsPlayer</Title><Value>false</Value></Field><Field Type="Files"><Title>Pictures</Title><Value>[]</Value></Field></Fields></Actor></Actors><Items><Item ID="0"><Fields><Field Type="Text"><Title>Name</Title><Value>New Item</Value></Field><Field Type="Text"><Title>Description</Title><Value></Value></Field><Field Type="Boolean"><Title>InInventory</Title><Value>false</Value></Field></Fields></Item></Items><Locations><Location ID="0"><Fields><Field Type="Text"><Title>Name</Title><Value>New Location</Value></Field><Field Type="Text"><Title>Description</Title><Value></Value></Field><Field Type="Boolean"><Title>Learned</Title><Value>false</Value></Field><Field Type="Boolean"><Title>Visited</Title><Value>false</Value></Field></Fields></Location></Locations><Conversations><Conversation ID="0"><Fields><Field Type="Text"><Title>Title</Title><Value>CookPuzzle</Value></Field><Field Type="Text"><Title>Description</Title><Value>A new conversation</Value></Field><Field Type="Actor"><Title>Actor</Title><Value>1</Value></Field><Field Type="Actor"><Title>Conversant</Title><Value>2</Value></Field><Field Type="Files"><Title>Pictures</Title><Value>[]</Value></Field></Fields><DialogEntries><DialogEntry ID="0" IsRoot="true" IsGroup="false" FalseConditionAction=""><Fields><Field Type="Text"><Title>Title</Title><Value>START</Value></Field><Field Type="Actor"><Title>Actor</Title><Value>1</Value></Field><Field Type="Actor"><Title>Conversant</Title><Value>1</Value></Field><Field Type="Text"><Title>Menu Text</Title><Value></Value></Field><Field Type="Text"><Title>Dialogue Text</Title><Value></Value></Field><Field Type="Text"><Title>Sequence</Title><Value></Value></Field><Field Type="Files"><Title>Pictures</Title><Value>[]</Value></Field><Field Type="Text"><Title>canvasRect</Title><Value>476;24</Value></Field></Fields><ConditionsString></ConditionsString><UserScript></UserScript><OutgoingLinks><Link ConversationID="0" OriginConvoID="0" DestinationConvoID="0" OriginDialogID="0" DestinationDialogID="3" IsConnector="false" /><Link ConversationID="0" OriginConvoID="0" DestinationConvoID="0" OriginDialogID="0" DestinationDialogID="5" IsConnector="false" /><Link ConversationID="0" OriginConvoID="0" DestinationConvoID="0" OriginDialogID="0" DestinationDialogID="7" IsConnector="false" /><Link ConversationID="0" OriginConvoID="0" DestinationConvoID="0" OriginDialogID="0" DestinationDialogID="9" IsConnector="false" /><Link ConversationID="0" OriginConvoID="0" DestinationConvoID="0" OriginDialogID="0" DestinationDialogID="11" IsConnector="false" /><Link ConversationID="0" OriginConvoID="0" DestinationConvoID="0" OriginDialogID="0" DestinationDialogID="13" IsConnector="false" /></OutgoingLinks></DialogEntry><DialogEntry ID="3" IsRoot="false" IsGroup="false" FalseConditionAction="Block"><Fields><Field Type="Text"><Title>Title</Title><Value></Value></Field><Field Type="Actor"><Title>Actor</Title><Value>2</Value></Field><Field Type="Actor"><Title>Conversant</Title><Value>1</Value></Field><Field Type="Text"><Title>Menu Text</Title><Value></Value></Field><Field Type="Text"><Title>Dialogue Text</Title><Value>if i==j:
+ f=g+h
+else:
+ f=f-i</Value></Field><Field Type="Text"><Title>Sequence</Title><Value></Value></Field><Field Type="Files"><Title>Pictures</Title><Value>[]</Value></Field><Field Type="Text"><Title>canvasRect</Title><Value>32;82,8</Value></Field></Fields><ConditionsString></ConditionsString><UserScript></UserScript><OutgoingLinks><Link ConversationID="0" OriginConvoID="0" DestinationConvoID="0" OriginDialogID="3" DestinationDialogID="4" IsConnector="false" /></OutgoingLinks></DialogEntry><DialogEntry ID="4" IsRoot="false" IsGroup="false" FalseConditionAction="Block"><Fields><Field Type="Text"><Title>Title</Title><Value></Value></Field><Field Type="Actor"><Title>Actor</Title><Value>1</Value></Field><Field Type="Actor"><Title>Conversant</Title><Value>1</Value></Field><Field Type="Text"><Title>Menu Text</Title><Value></Value></Field><Field Type="Text"><Title>Dialogue Text</Title><Value>bne s3,s4,ELSE
+add s0,s1,s2
+j EXIT
+ELSE: sub s0,s0,s3
+EXIT: li a7,10
+ecall
+;
+bne s3,s4,ELSE
+sub s0,s1,s2
+j EXIT
+ELSE: add s0,s0,s3
+EXIT: li a7,10
+ecall
+;
+beq s3,s4,ELSE
+add s0,s1,s2
+j EXIT
+ELSE: sub s0,s0,s3
+EXIT: li a7,10
+ecall</Value></Field><Field Type="Text"><Title>Sequence</Title><Value></Value></Field><Field Type="Files"><Title>Pictures</Title><Value>[]</Value></Field><Field Type="Text"><Title>canvasRect</Title><Value>32;224,64</Value></Field></Fields><ConditionsString></ConditionsString><UserScript></UserScript><OutgoingLinks></OutgoingLinks></DialogEntry><DialogEntry ID="5" IsRoot="false" IsGroup="false" FalseConditionAction="Block"><Fields><Field Type="Text"><Title>Title</Title><Value></Value></Field><Field Type="Actor"><Title>Actor</Title><Value>2</Value></Field><Field Type="Actor"><Title>Conversant</Title><Value>1</Value></Field><Field Type="Text"><Title>Menu Text</Title><Value></Value></Field><Field Type="Text"><Title>Dialogue Text</Title><Value>a = 4 &lt; 2 ** 4 &lt; 15</Value></Field><Field Type="Text"><Title>Sequence</Title><Value></Value></Field><Field Type="Files"><Title>Pictures</Title><Value>[]</Value></Field><Field Type="Text"><Title>canvasRect</Title><Value>209,6;82,8</Value></Field></Fields><ConditionsString></ConditionsString><UserScript></UserScript><OutgoingLinks><Link ConversationID="0" OriginConvoID="0" DestinationConvoID="0" OriginDialogID="5" DestinationDialogID="6" IsConnector="false" /></OutgoingLinks></DialogEntry><DialogEntry ID="6" IsRoot="false" IsGroup="false" FalseConditionAction="Block"><Fields><Field Type="Text"><Title>Title</Title><Value></Value></Field><Field Type="Actor"><Title>Actor</Title><Value>1</Value></Field><Field Type="Actor"><Title>Conversant</Title><Value>2</Value></Field><Field Type="Text"><Title>Menu Text</Title><Value></Value></Field><Field Type="Text"><Title>Dialogue Text</Title><Value>MAIN: li s0,4
+li s1,2
+li s2,15
+slli s1,s1,3
+slt a0,s0,s1
+beqz a0,EXIT
+slt a0,s1,s2
+EXIT: li a7,10
+ecall
+;
+MAIN: li s0,4
+li s1,2
+li s2,15
+mul s1,s1,s0
+slt a0,s0,s1
+beqz a0,EXIT
+slt a0,s1,s2
+EXIT: li a7,10
+ecall
+;
+MAIN: li s0,4
+li s1,2
+li s2,15
+slli s1,s1,4
+slt a0,s0,s1
+beqz a0,EXIT
+slt a0,s2,s1
+EXIT: li a7,10
+ecall</Value></Field><Field Type="Text"><Title>Sequence</Title><Value></Value></Field><Field Type="Files"><Title>Pictures</Title><Value>[]</Value></Field><Field Type="Text"><Title>canvasRect</Title><Value>209,6;224,64</Value></Field></Fields><ConditionsString></ConditionsString><UserScript></UserScript><OutgoingLinks></OutgoingLinks></DialogEntry><DialogEntry ID="7" IsRoot="false" IsGroup="false" FalseConditionAction="Block"><Fields><Field Type="Text"><Title>Title</Title><Value></Value></Field><Field Type="Actor"><Title>Actor</Title><Value>2</Value></Field><Field Type="Actor"><Title>Conversant</Title><Value>1</Value></Field><Field Type="Text"><Title>Menu Text</Title><Value></Value></Field><Field Type="Text"><Title>Dialogue Text</Title><Value>def funcao(a):
+    a += 10
+    return a // 2
+
+a = 3
+print(funcao(a))</Value></Field><Field Type="Text"><Title>Sequence</Title><Value></Value></Field><Field Type="Files"><Title>Pictures</Title><Value>[]</Value></Field><Field Type="Text"><Title>canvasRect</Title><Value>387,2;82,8</Value></Field></Fields><ConditionsString></ConditionsString><UserScript></UserScript><OutgoingLinks><Link ConversationID="0" OriginConvoID="0" DestinationConvoID="0" OriginDialogID="7" DestinationDialogID="8" IsConnector="false" /></OutgoingLinks></DialogEntry><DialogEntry ID="8" IsRoot="false" IsGroup="false" FalseConditionAction="Block"><Fields><Field Type="Text"><Title>Title</Title><Value></Value></Field><Field Type="Actor"><Title>Actor</Title><Value>1</Value></Field><Field Type="Actor"><Title>Conversant</Title><Value>2</Value></Field><Field Type="Text"><Title>Menu Text</Title><Value></Value></Field><Field Type="Text"><Title>Dialogue Text</Title><Value>MAIN: li a0,3
+jal FUNCAO
+jal PRINT
+j EXIT
+FUNCAO: addi a0, a0, 10
+srai a0,a0,1
+ret
+PRINT: li a7, 1
+ecall
+ret
+EXIT: li a7, 10
+ecall
+;
+MAIN: li a0,-16
+jal FUNCAO
+jal PRINT
+j EXIT
+FUNCAO: srai a0,a0,4
+addi a0,a0,8
+ret
+PRINT: li a7, 1
+ecall
+ret
+EXIT: li a7, 10
+ecall
+;
+MAIN: li a0,3
+jal FUNCAO
+jal PRINT
+j EXIT
+FUNCAO: addi a0, a0, 10
+srai a0,a0,1
+ret
+PRINT: li a7, 2
+ecall
+ret
+EXIT: li a7, 10
+ecall</Value></Field><Field Type="Text"><Title>Sequence</Title><Value></Value></Field><Field Type="Files"><Title>Pictures</Title><Value>[]</Value></Field><Field Type="Text"><Title>canvasRect</Title><Value>387,2;224,64</Value></Field></Fields><ConditionsString></ConditionsString><UserScript></UserScript><OutgoingLinks></OutgoingLinks></DialogEntry><DialogEntry ID="9" IsRoot="false" IsGroup="false" FalseConditionAction="Block"><Fields><Field Type="Text"><Title>Title</Title><Value></Value></Field><Field Type="Actor"><Title>Actor</Title><Value>2</Value></Field><Field Type="Actor"><Title>Conversant</Title><Value>1</Value></Field><Field Type="Text"><Title>Menu Text</Title><Value></Value></Field><Field Type="Text"><Title>Dialogue Text</Title><Value>for i in range(3):
+    print(i)</Value></Field><Field Type="Text"><Title>Sequence</Title><Value></Value></Field><Field Type="Files"><Title>Pictures</Title><Value>[]</Value></Field><Field Type="Text"><Title>canvasRect</Title><Value>564,8;82,8</Value></Field></Fields><ConditionsString></ConditionsString><UserScript></UserScript><OutgoingLinks><Link ConversationID="0" OriginConvoID="0" DestinationConvoID="0" OriginDialogID="9" DestinationDialogID="10" IsConnector="false" /></OutgoingLinks></DialogEntry><DialogEntry ID="10" IsRoot="false" IsGroup="false" FalseConditionAction="Block"><Fields><Field Type="Text"><Title>Title</Title><Value></Value></Field><Field Type="Actor"><Title>Actor</Title><Value>1</Value></Field><Field Type="Actor"><Title>Conversant</Title><Value>2</Value></Field><Field Type="Text"><Title>Menu Text</Title><Value></Value></Field><Field Type="Text"><Title>Dialogue Text</Title><Value>MAIN: li t0,0
+li t1,3
+LOOP_I: mv a0,t0
+jal PRINT
+addi t0,t0,1
+blt t0,t1,LOOP_I
+EXIT: li a7,10
+ecall
+PRINT: li a7,1
+ecall
+ret
+;
+MAIN: li t0,3
+LOOP_I: mv a0,t0
+jal PRINT
+addi t0,t0,-1
+bnez t0,LOOP_I
+EXIT: li a7,10
+ecall
+PRINT: li a7,1
+ecall
+ret
+;
+MAIN: li t0,0
+li t1,3
+LOOP_I: addi t0,t0,1
+mv a0,t0
+jal PRINT
+blt t0,t1,LOOP_I
+EXIT: li a7,10
+ecall
+PRINT: li a7,1
+ecall
+ret</Value></Field><Field Type="Text"><Title>Sequence</Title><Value></Value></Field><Field Type="Files"><Title>Pictures</Title><Value>[]</Value></Field><Field Type="Text"><Title>canvasRect</Title><Value>564,8;224,64</Value></Field></Fields><ConditionsString></ConditionsString><UserScript></UserScript><OutgoingLinks></OutgoingLinks></DialogEntry><DialogEntry ID="11" IsRoot="false" IsGroup="false" FalseConditionAction="Block"><Fields><Field Type="Text"><Title>Title</Title><Value></Value></Field><Field Type="Actor"><Title>Actor</Title><Value>2</Value></Field><Field Type="Actor"><Title>Conversant</Title><Value>1</Value></Field><Field Type="Text"><Title>Menu Text</Title><Value></Value></Field><Field Type="Text"><Title>Dialogue Text</Title><Value>a = int(input())
+print(a)</Value></Field><Field Type="Text"><Title>Sequence</Title><Value></Value></Field><Field Type="Files"><Title>Pictures</Title><Value>[]</Value></Field><Field Type="Text"><Title>canvasRect</Title><Value>742,4;82,8</Value></Field></Fields><ConditionsString></ConditionsString><UserScript></UserScript><OutgoingLinks><Link ConversationID="0" OriginConvoID="0" DestinationConvoID="0" OriginDialogID="11" DestinationDialogID="12" IsConnector="false" /></OutgoingLinks></DialogEntry><DialogEntry ID="12" IsRoot="false" IsGroup="false" FalseConditionAction="Block"><Fields><Field Type="Text"><Title>Title</Title><Value></Value></Field><Field Type="Actor"><Title>Actor</Title><Value>1</Value></Field><Field Type="Actor"><Title>Conversant</Title><Value>2</Value></Field><Field Type="Text"><Title>Menu Text</Title><Value></Value></Field><Field Type="Text"><Title>Dialogue Text</Title><Value>MAIN: jal INPUT
+jal PRINT
+j EXIT
+INPUT: li a7,5
+ecall
+ret
+PRINT: li a7,1
+ecall
+ret
+EXIT: li a7,10
+ecall
+;
+MAIN: jal INPUT
+jal PRINT
+j EXIT
+INPUT: li a7,5
+ecall
+ret
+PRINT: li a7,1
+ecall
+ret
+EXIT: li a7,11
+ecall
+;
+MAIN: j INPUT
+jal PRINT
+j EXIT
+INPUT: li a7,5
+ecall
+ret
+PRINT: li a7,1
+ecall
+ret
+EXIT: li a7,10
+ecall</Value></Field><Field Type="Text"><Title>Sequence</Title><Value></Value></Field><Field Type="Files"><Title>Pictures</Title><Value>[]</Value></Field><Field Type="Text"><Title>canvasRect</Title><Value>742,4;224,64</Value></Field></Fields><ConditionsString></ConditionsString><UserScript></UserScript><OutgoingLinks></OutgoingLinks></DialogEntry><DialogEntry ID="13" IsRoot="false" IsGroup="false" FalseConditionAction="Block"><Fields><Field Type="Text"><Title>Title</Title><Value></Value></Field><Field Type="Actor"><Title>Actor</Title><Value>2</Value></Field><Field Type="Actor"><Title>Conversant</Title><Value>1</Value></Field><Field Type="Text"><Title>Menu Text</Title><Value></Value></Field><Field Type="Text"><Title>Dialogue Text</Title><Value>a = 3/2</Value></Field><Field Type="Text"><Title>Sequence</Title><Value></Value></Field><Field Type="Files"><Title>Pictures</Title><Value>[]</Value></Field><Field Type="Text"><Title>canvasRect</Title><Value>920;82,8</Value></Field></Fields><ConditionsString></ConditionsString><UserScript></UserScript><OutgoingLinks><Link ConversationID="0" OriginConvoID="0" DestinationConvoID="0" OriginDialogID="13" DestinationDialogID="14" IsConnector="false" /></OutgoingLinks></DialogEntry><DialogEntry ID="14" IsRoot="false" IsGroup="false" FalseConditionAction="Block"><Fields><Field Type="Text"><Title>Title</Title><Value></Value></Field><Field Type="Actor"><Title>Actor</Title><Value>1</Value></Field><Field Type="Actor"><Title>Conversant</Title><Value>2</Value></Field><Field Type="Text"><Title>Menu Text</Title><Value></Value></Field><Field Type="Text"><Title>Dialogue Text</Title><Value>MAIN: li t0,3
 fcvt.s.w ft0,t0
 li t0,2
 fcvt.s.w ft1,t0
@@ -20,4 +181,4 @@ MAIN: li t0,3
 li t1,2
 div a0,t0,t1
 EXIT: li a7,10
-ecall</Value></Field><Field Type="Text"><Title>Sequence</Title><Value></Value></Field><Field Type="Files"><Title>Pictures</Title><Value>[]</Value></Field><Field Type="Text"><Title>canvasRect</Title><Value>32;181,44</Value></Field></Fields><ConditionsString></ConditionsString><UserScript></UserScript><OutgoingLinks></OutgoingLinks></DialogEntry></DialogEntries></Conversation></Conversations><UserVariables><UserVariable><Fields><Field Type="Text"><Title>Name</Title><Value>New Variable</Value></Field><Field Type="Boolean"><Title>Initial Value</Title><Value>false</Value></Field><Field Type="Text"><Title>Description</Title><Value></Value></Field></Fields></UserVariable></UserVariables></Assets></ChatMapperProject>
+ecall</Value></Field><Field Type="Text"><Title>Sequence</Title><Value></Value></Field><Field Type="Files"><Title>Pictures</Title><Value>[]</Value></Field><Field Type="Text"><Title>canvasRect</Title><Value>920;224,64</Value></Field></Fields><ConditionsString></ConditionsString><UserScript></UserScript><OutgoingLinks></OutgoingLinks></DialogEntry></DialogEntries></Conversation></Conversations><UserVariables><UserVariable><Fields><Field Type="Text"><Title>Name</Title><Value>New Variable</Value></Field><Field Type="Boolean"><Title>Initial Value</Title><Value>false</Value></Field><Field Type="Text"><Title>Description</Title><Value></Value></Field></Fields></UserVariable></UserVariables></Assets></ChatMapperProject>

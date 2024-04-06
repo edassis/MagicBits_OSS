@@ -86,10 +86,10 @@ namespace MagicBits_OSS.Shared.Scripts
 
             // Seleção do DB.
 #if UNITY_EDITOR
-            if (prioritizeExternalDB) m_useExternalDB = true;
 #else // Jogo exportado.
-        prioritizeExternalDB = true;
+            prioritizeExternalDB = true;
 #endif
+            m_useExternalDB = prioritizeExternalDB;
             if (m_useExternalDB) yield return StartCoroutine(ImportChatMapperXML());
             isDataBaseReady = true;
             OnDataBaseReady?.Invoke();
@@ -132,15 +132,19 @@ namespace MagicBits_OSS.Shared.Scripts
             }
 
             // Search in internal DB.
-            internalConversation = masterDatabase.GetConversation(conversationName);
-            if (internalConversation != null)
+            // NOTE: Only if external DB failed or is not prioritized.
+            if (externalConversation == null)
             {
-                questions.AddRange(RetrieveQuestionsFromConversation(internalConversation));
-            }
-            else
-            {
-                UnityEngine.Debug.LogWarning(
-                    $"{s_instance.gameObject.name}: '{conversationName}' not found in internal DB.");
+                internalConversation = masterDatabase.GetConversation(conversationName);
+                if (internalConversation != null)
+                {
+                    questions.AddRange(RetrieveQuestionsFromConversation(internalConversation));
+                }
+                else
+                {
+                    UnityEngine.Debug.LogWarning(
+                        $"{s_instance.gameObject.name}: '{conversationName}' not found in internal DB.");
+                }
             }
 
             if (questions.Count == 0)
@@ -213,23 +217,26 @@ namespace MagicBits_OSS.Shared.Scripts
             // Como a aplicação roda no WebGl, classes ao sistema de arquivos não funcionam (System.IO),
             // como File, Path, Directory. Isso foi exaustivamente testado. Provavelmente, devido
             // aos arquivos estarem hospedados num servidor http.
-            string path = $"./{s_minigameName}/{m_levelName}/Resources/{s_minigameName}-{m_levelName}-DB.xml";
+            string path = $"Resources/{s_minigameName}-{m_levelName}-DB.xml";
 #if UNITY_WEBGL && !UNITY_EDITOR
+            Debug.Log($"Carregando DB de '{path}'...");
             yield return s_instance.StartCoroutine(GetTextFromWeb(path, ImportChatMapperRoutine));
 #elif UNITY_EDITOR
             yield return null;
-            path = Path.Combine(Application.dataPath, "../Build", path);
+            path = Path.Combine(Application.dataPath, "../Build", $"{s_minigameName}/{m_levelName}", path);
             path = Path.GetFullPath(path);
+            // Debug.Log($"Path '{path}'");
             try
             {
+                Debug.Log($"Loading DB from '{path}'...");
                 string text = File.ReadAllText(path);
                 TextAsset textAsset = new TextAsset(text);
                 ImportChatMapperRoutine(textAsset);
             }
             catch (IOException ex)
             {
-                UnityEngine.Debug.LogWarning(
-                    $"{s_instance.gameObject.name}: Não foi possível carregar o DB no caminho: {path} ({ex.GetType().ToString()})");
+                UnityEngine.Debug.LogError(
+                    $"{s_instance.gameObject.name}: Wasn't possible to load DB from : '{path}' ({ex.GetType().ToString()})");
                 yield break;
             }
 #else
@@ -298,21 +305,21 @@ namespace MagicBits_OSS.Shared.Scripts
 
         private static IEnumerator GetTextFromWeb(string path, Action<TextAsset> callback)
         {
+            Debug.Log($"Loading asset from '{path}' via Web.");
+            
             var www = UnityWebRequest.Get(path);
             yield return www.SendWebRequest();
 
             if (www.result != UnityWebRequest.Result.Success)
             {
-                UnityEngine.Debug.LogWarning(www.error);
+                UnityEngine.Debug.LogError(www.error);
             }
             else
             {
                 // Show results as text
                 //Debug.Log(www.downloadHandler.text);
-
                 // Or retrieve results as binary data
                 //byte[] results = www.downloadHandler.data;
-
                 callback(new TextAsset(www.downloadHandler.text));
             }
         }
