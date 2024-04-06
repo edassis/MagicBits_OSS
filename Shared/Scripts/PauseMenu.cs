@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using MagicBits.Minigame_2_x.Scripts;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -19,11 +20,27 @@ namespace MagicBits_OSS.Shared.Scripts
         // Interno
         [SerializeField] private GameObject m_pausedPanel;
         [SerializeField] private CheatCodeUI m_cheatCodePanel;
+        [SerializeField] private TextMeshProUGUI m_textVersion;
 
         public static event Action OnToggleDebugUI;
         public static event Action<bool> OnCheatCodeEntered;
 
         private HashSet<UnityEngine.KeyCode> m_keyPool = new();
+
+        private void Awake()
+        {  
+            GameController_2_2_1.OnPrivilegedAccessChange += OnPrivilegedAccessChange;
+        }
+
+        private void OnDestroy()
+        {
+            GameController_2_2_1.OnPrivilegedAccessChange -= OnPrivilegedAccessChange;
+        }
+        
+        private void Start()
+        {
+            m_textVersion.text = $"v{Application.version}";
+        }
 
         private void Update()
         {
@@ -33,7 +50,6 @@ namespace MagicBits_OSS.Shared.Scripts
             Action<bool> cheatCodeEnteredHandler = (bool state) =>
             {
                 m_cheatCodePanel.gameObject.SetActive(false);
-                debugButton.SetActive(state);
                 OnCheatCodeEntered?.Invoke(state);
             };
 
@@ -131,6 +147,11 @@ namespace MagicBits_OSS.Shared.Scripts
         {
             yield return new WaitForSeconds(0.5f);
             m_keyPool.Clear();
+        }
+        
+        private void OnPrivilegedAccessChange(bool state)
+        {
+            debugButton.SetActive(state);
         }
     }
 }
