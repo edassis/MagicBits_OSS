@@ -219,8 +219,16 @@ namespace MagicBits_OSS.Shared.Scripts
             // aos arquivos estarem hospedados num servidor http.
             string path = $"Resources/{s_minigameName}-{m_levelName}-DB.xml";
 #if UNITY_WEBGL && !UNITY_EDITOR
-            Debug.Log($"Carregando DB de '{path}'...");
-            yield return s_instance.StartCoroutine(GetTextFromWeb(path, ImportChatMapperRoutine));
+            Debug.Log($"Loading DB from '{path}'.");
+            yield return s_instance.StartCoroutine(GetTextFromWeb(path, (success, asset) =>
+            {
+                if (!success)
+                {
+                    s_instance.m_useExternalDB = false; // Should stop to use external DB if failed to load data.
+                    return;
+                }
+                ImportChatMapperRoutine(asset);
+            }));
 #elif UNITY_EDITOR
             yield return null;
             path = Path.Combine(Application.dataPath, "../Build", $"{s_minigameName}/{m_levelName}", path);
@@ -228,7 +236,7 @@ namespace MagicBits_OSS.Shared.Scripts
             // Debug.Log($"Path '{path}'");
             try
             {
-                Debug.Log($"Loading DB from '{path}'...");
+                Debug.Log($"Loading DB from '{path}'.");
                 string text = File.ReadAllText(path);
                 TextAsset textAsset = new TextAsset(text);
                 ImportChatMapperRoutine(textAsset);
@@ -303,25 +311,33 @@ namespace MagicBits_OSS.Shared.Scripts
             return result;
         }
 
-        private static IEnumerator GetTextFromWeb(string path, Action<TextAsset> callback)
+        private static IEnumerator GetTextFromWeb(string path, Action<bool, TextAsset> callback)
         {
+            bool success = true;
+            using var www = UnityWebRequest.Get(path);
+            
             Debug.Log($"Loading asset from '{path}' via Web.");
             
-            var www = UnityWebRequest.Get(path);
             yield return www.SendWebRequest();
-
-            if (www.result != UnityWebRequest.Result.Success)
+            switch (www.result)
             {
-                UnityEngine.Debug.LogError(www.error);
+                case UnityWebRequest.Result.Success:
+                    break;
+                case UnityWebRequest.Result.InProgress:
+                case UnityWebRequest.Result.ConnectionError:
+                case UnityWebRequest.Result.ProtocolError:
+                case UnityWebRequest.Result.DataProcessingError:
+                    // Show results as text
+                    //Debug.Log(www.downloadHandler.text);
+                    // Or retrieve results as binary data
+                    //byte[] results = www.downloadHandler.data;
+                    success = false;
+                    UnityEngine.Debug.LogError($"{s_instance.gameObject.name}: {www.error}");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            else
-            {
-                // Show results as text
-                //Debug.Log(www.downloadHandler.text);
-                // Or retrieve results as binary data
-                //byte[] results = www.downloadHandler.data;
-                callback(new TextAsset(www.downloadHandler.text));
-            }
+            callback(success, new TextAsset(www.downloadHandler.text));
         }
     }
 }
