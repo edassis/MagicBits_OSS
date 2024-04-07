@@ -51,7 +51,7 @@ namespace MagicBits_OSS.Shared.Scripts.Editor
                 if (summary.result == BuildResult.Succeeded)
                 {
                     UnityEngine.Debug.Log("Build succeeded: " + summary.totalSize + " bytes");
-                    ScormPostprocessor.GenerateScorm(buildPath, $"{minigameName}-{levelName}");
+                    ScormPostprocessor.GenerateScorm(buildPath, $"{minigameName}-{levelName}-v{Application.version}");
                 }
 
                 if (summary.result == BuildResult.Failed)
