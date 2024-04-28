@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using MagicBits.Minigame_2_x.Scripts;
+using PixelCrushers.DialogueSystem;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace MagicBits_OSS.Shared.Scripts
@@ -119,6 +121,11 @@ namespace MagicBits_OSS.Shared.Scripts
                 Kill(timeDeadNormal);
                 // GameController_2_2_1.IncrementFails();
             }
+        }
+        public void MoveTo(Transform newTransform)
+        {
+            var transform = GetComponent<Transform>();
+            transform.position = newTransform.position;
         }
 
         // Movimentação do Personagem e Acompanhamento da Cãmera

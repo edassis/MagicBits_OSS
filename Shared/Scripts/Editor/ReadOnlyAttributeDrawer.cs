@@ -4,7 +4,7 @@ using UnityEngine;
 namespace MagicBits_OSS.Shared.Scripts.Editor
 {
     [CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
-    public class ReadOnlyDrawer : PropertyDrawer
+    public class ReadOnlyAttributeDrawer : PropertyDrawer
     {
         public override float GetPropertyHeight(SerializedProperty property,
             GUIContent label)
