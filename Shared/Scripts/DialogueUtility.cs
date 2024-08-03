@@ -28,10 +28,8 @@ namespace MagicBits_OSS.Shared.Scripts
             public string text = "";
             public List<string> answers = new();
         }
-
-
+        
         private static DialogueUtility _instance;
-
         private static DialogueUtility s_instance
         {
             get
@@ -218,6 +216,11 @@ namespace MagicBits_OSS.Shared.Scripts
             // como File, Path, Directory. Isso foi exaustivamente testado. Provavelmente, devido
             // aos arquivos estarem hospedados num servidor http.
             string path = $"Resources/{s_minigameName}-{m_levelName}-DB.xml";
+            if (!File.Exists(path))
+            {
+                Utilities.Log($"{s_instance.gameObject.name}: '{path}' doesn't exist, skipping DB load.");
+                yield break;
+            }
 #if UNITY_WEBGL && !UNITY_EDITOR
             Debug.Log($"Loading DB from '{path}'.");
             yield return s_instance.StartCoroutine(GetTextFromWeb(path, (success, asset) =>
