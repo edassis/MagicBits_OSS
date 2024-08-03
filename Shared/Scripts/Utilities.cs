@@ -10,18 +10,12 @@ namespace MagicBits_OSS.Shared.Scripts
 {
     public static class Utilities
     {
-        #region Base Manipulation
-
-        /// <summary>
-        /// https://stackoverflow.com/a/10981113/8903027
-        /// </summary>
-        public static readonly char[] BaseChars =
-            "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".ToCharArray();
-
-        public static readonly Dictionary<char, int> CharValues = BaseChars
-            .Select((c, i) => new { Char = c, Index = i })
-            .ToDictionary(c => c.Char, c => c.Index);
-
+        // https://stackoverflow.com/a/13543600/8903027
+        public const int FLOAT_MAX_PRECISION_DIGITS = 7;
+        public const int DOUBLE_MAX_PRECISION_DIGITS = 15;
+        
+        #region Event
+        
         /// <summary>
         /// <b>TESTE!</b><br/>
         /// Esse não recebe componente.
@@ -53,6 +47,20 @@ namespace MagicBits_OSS.Shared.Scripts
 
             callback();
         }
+        
+        #endregion
+        
+        #region Math: Base Manipulation
+
+        /// <summary>
+        /// https://stackoverflow.com/a/10981113/8903027
+        /// </summary>
+        public static readonly char[] BaseChars =
+            "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".ToCharArray();
+
+        public static readonly Dictionary<char, int> CharValues = BaseChars
+            .Select((c, i) => new { Char = c, Index = i })
+            .ToDictionary(c => c.Char, c => c.Index);
 
         /// <summary>
         /// Intervalo: [-int.MaxValue, int.MaxValue]
@@ -198,13 +206,13 @@ namespace MagicBits_OSS.Shared.Scripts
 
         #region Log
 
-        // TODO: Separate message severity (log, warn, error) from scope (editor, release).
+        // TODO: Search for Unity 'Logger'.
         public enum LogLevel
         {
-            Default,
-            Editor,
-            Debug,
+            Info,
             Warn,
+            Debug,
+            Editor,
         }
 
         public static void Log(object message, LogLevel level = LogLevel.Debug)
@@ -212,7 +220,7 @@ namespace MagicBits_OSS.Shared.Scripts
             switch (level)
             {
                 case LogLevel.Debug:
-                    if (!Application.isEditor && !GameController_2_2_1.hasPrivilegedAccess) return;
+                    if (!Application.isEditor && !GameController_2_2_1.hasPrivilegedAccess && !Debug.isDebugBuild) return;
                     break;
                 case LogLevel.Editor:
                     if (!Application.isEditor) return;
@@ -223,6 +231,9 @@ namespace MagicBits_OSS.Shared.Scripts
             string cl = "White";
             switch (level)
             {
+                case LogLevel.Info:
+                    lv = "Default";
+                    break;
                 case LogLevel.Warn:
                     lv = "Warn";
                     cl = "Yellow";
@@ -232,9 +243,6 @@ namespace MagicBits_OSS.Shared.Scripts
                     break;
                 case LogLevel.Editor:
                     lv = "Editor";
-                    break;
-                case LogLevel.Default:
-                    lv = "Default";
                     break;
             }
 

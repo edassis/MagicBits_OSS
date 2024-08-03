@@ -1,4 +1,6 @@
-﻿namespace MagicBits_OSS.Shared.Scripts
+﻿using UnityEngine;
+
+namespace MagicBits_OSS.Shared.Scripts
 {
     /// <summary>
     /// Utilitário para formatar strings.
@@ -8,9 +10,33 @@
     {
         public static string Bold(this string str) => "<b>" + str + "</b>";
         
-        // TODO: Não formatar para plataformas que não suportam (Web).
-        public static string Color(this string str, string clr) => string.Format("<color={0}>{1}</color>", clr, str);
-        public static string Italic(this string str) => "<i>" + str + "</i>";
-        public static string Size(this string str, int size) => string.Format("<size={0}>{1}</size>", size, str);
+        public static string Color(this string str, string clr)
+        {
+            if (Application.platform != RuntimePlatform.WebGLPlayer)
+            {
+                return string.Format("<color={0}>{1}</color>", clr, str);
+            }
+
+            return str;
+        }
+
+        public static string Italic(this string str)
+        {
+            if (Application.platform != RuntimePlatform.WebGLPlayer)
+            {
+                return "<i>" + str + "</i>";
+            }
+
+            return str;
+        }
+        public static string Size(this string str, int size)
+        {
+            if (Application.platform != RuntimePlatform.WebGLPlayer)
+            {
+                return string.Format("<size={0}>{1}</size>", size, str);
+            }
+
+            return str;
+        }
     }
 }
