@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace MagicBits_OSS.Shared.Scripts
 {
+    [AddComponentMenu("MagicBits/Controllers/UI Controller")]
     public class MagicBitsUIController : MonoBehaviour
     {
         const string name = "MagicBitsUIController";
