@@ -232,7 +232,7 @@ namespace MagicBits_OSS.Shared.Scripts
             switch (level)
             {
                 case LogLevel.Info:
-                    lv = "Default";
+                    lv = "Info";
                     break;
                 case LogLevel.Warn:
                     lv = "Warn";
