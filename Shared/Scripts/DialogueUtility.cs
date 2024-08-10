@@ -99,6 +99,11 @@ namespace MagicBits_OSS.Shared.Scripts
             OnDataBaseReady?.Invoke();
         }
 
+        private void OnDestroy()
+        {
+            GameController_2_2_1.OnPrivilegedAccessChange -= OnPrivilegedAccessChange;
+        }
+
         public static Coroutine LoadQuestionsFromConversationCoroutine(string conversationName,
             Action<List<Question>> callback)
         {
