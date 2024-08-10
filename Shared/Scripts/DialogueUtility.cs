@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using MagicBits.Minigame_2_x.Scripts;
 using PixelCrushers.DialogueSystem;
 using PixelCrushers.DialogueSystem.ChatMapper;
 using UnityEngine;
@@ -13,6 +14,7 @@ using UnityEngine.SceneManagement;
 namespace MagicBits_OSS.Shared.Scripts
 {
     [AddComponentMenu("MagicBits/Dialogue/Dialogue Utility")]
+    [RequireComponent(typeof(LuaConsole))]
     public class DialogueUtility : MonoBehaviour
     {
         public static event Action OnImported;
@@ -48,7 +50,6 @@ namespace MagicBits_OSS.Shared.Scripts
         }
 
         private static string s_minigameName = "";
-        private static bool s_isUnityEditor = false;
 
         /// <summary>
         /// Active scene's name.
@@ -56,6 +57,8 @@ namespace MagicBits_OSS.Shared.Scripts
         private static string m_levelName = "";
 
         private bool m_useExternalDB = false;
+        
+        private LuaConsole m_luaConsole;
 
         private void Awake()
         {
@@ -70,10 +73,13 @@ namespace MagicBits_OSS.Shared.Scripts
             //         // Destroy(gameObject);
             //         s_instance = null;
             //     }
+            
+            GameController_2_2_1.OnPrivilegedAccessChange += OnPrivilegedAccessChange;
 
-            s_isUnityEditor = (Application.platform == RuntimePlatform.WindowsEditor ||
-                               Application.platform == RuntimePlatform.LinuxEditor ||
-                               Application.platform == RuntimePlatform.OSXEditor);
+            m_luaConsole = GetComponent<LuaConsole>();
+            
+            // Disables Dialogue System's Lua Console in Release runtime.
+            if (!Application.isEditor) m_luaConsole.enabled = false;
         }
 
         private IEnumerator Start()
@@ -341,6 +347,11 @@ namespace MagicBits_OSS.Shared.Scripts
                     throw new ArgumentOutOfRangeException();
             }
             callback(success, new TextAsset(www.downloadHandler.text));
+        }
+        
+        private void OnPrivilegedAccessChange(bool val)
+        {
+            m_luaConsole.enabled = val;
         }
     }
 }
