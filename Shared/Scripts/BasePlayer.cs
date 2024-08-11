@@ -20,6 +20,7 @@ namespace MagicBits_OSS.Shared.Scripts
          https://stackoverflow.com/a/22878784/8903027
          */
         public static event Action OnKill;
+        public static event Action<GameObject> OnSpawnEnter;
 
         // Fields
         public float speedMovement = 5f;
@@ -110,7 +111,7 @@ namespace MagicBits_OSS.Shared.Scripts
 
             if (col.gameObject.tag == "Respawn")
             {
-                SaveCheckPoint(col.gameObject);
+                OnSpawnEnter?.Invoke(col.gameObject);
             }
             else if (col.gameObject.tag == "Limbo")
             {
@@ -176,21 +177,7 @@ namespace MagicBits_OSS.Shared.Scripts
             }
         }
 
-        // Salva o ponto de checkpoint para respawn
-        private void SaveCheckPoint(GameObject checkPoint)
-        {
-            GameObject listSpawns = GameController_2_2_1.GetListSpawns();
-            int currentSpawn = GameController_2_2_1.s_spawn;
-            int spawnCount = listSpawns.transform.childCount;
 
-            for (int i = 0; i < spawnCount; i++)
-            {
-                if (i > currentSpawn && checkPoint.gameObject == listSpawns.transform.GetChild(i).gameObject)
-                {
-                    GameController_2_2_1.s_spawn = i;
-                }
-            }
-        }
 
         private void ResetAnimation()
         {
@@ -244,7 +231,7 @@ namespace MagicBits_OSS.Shared.Scripts
             anim.SetBool("isDead", true);
             isDead = true;
             SetCanMove(false);
-            GameController_2_2_1.deaths++;
+            GameController_2_2_1.s_deaths++;
 
             if (deathSound)
                 GameController_2_2_1.PlaySound(deathSound);

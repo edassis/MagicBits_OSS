@@ -170,14 +170,12 @@ namespace MagicBits_OSS.Shared.Scripts
             {
                 { "isComplete", $"{isComplete.ToString()}" }
             };
-            // Debug.Log($"{this} {GetId()} dados a serem salvos {dict["isComplete"]}");
             return dict;
         }
 
         public void SetSaveData(Dictionary<string, string> dict)
         {
             isComplete = bool.Parse(dict["isComplete"]);
-            // Debug.Log($"{this} {GetId()}: isComplete {isComplete}");
         }
     }
 }
