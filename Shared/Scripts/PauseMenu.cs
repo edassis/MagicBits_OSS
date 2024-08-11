@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using MagicBits.Minigame_2_x.Scripts;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace MagicBits_OSS.Shared.Scripts
@@ -15,28 +14,34 @@ namespace MagicBits_OSS.Shared.Scripts
         public Image muteIconElement;
         public Sprite unMuteImage;
         public Sprite muteImage;
-        public GameObject debugButton;
-    
+
         // Interno
+        [SerializeField] private GameObject m_debugButton;
+        [SerializeField] private GameObject m_lastCheckPointButton;
         [SerializeField] private GameObject m_pausedPanel;
         [SerializeField] private CheatCodeUI m_cheatCodePanel;
         [SerializeField] private TextMeshProUGUI m_textVersion;
 
         public static event Action OnToggleDebugUI;
         public static event Action<bool> OnCheatCodeEntered;
+        public static event Action OnRestart;
+        public static event Action OnLastCheckPoint;
+        public static event Action OnGiveUp;
 
         private HashSet<UnityEngine.KeyCode> m_keyPool = new();
 
         private void Awake()
-        {  
+        {
             GameController_2_2_1.OnPrivilegedAccessChange += OnPrivilegedAccessChange;
+            GameController_2_2_1.OnCheckPointUpdate += OnCheckPointUpdate;
         }
 
         private void OnDestroy()
         {
             GameController_2_2_1.OnPrivilegedAccessChange -= OnPrivilegedAccessChange;
+            GameController_2_2_1.OnCheckPointUpdate -= OnCheckPointUpdate;
         }
-        
+
         private void Start()
         {
             m_textVersion.text = $"v{Application.version}";
@@ -45,7 +50,7 @@ namespace MagicBits_OSS.Shared.Scripts
         private void Update()
         {
             if (!m_pausedPanel.activeSelf) return;
-        
+
             // Handler passada para o CheatCodeUI
             Action<bool> cheatCodeEnteredHandler = (bool state) =>
             {
@@ -120,18 +125,6 @@ namespace MagicBits_OSS.Shared.Scripts
             }
         }
 
-        public void GiveUp()
-        {
-            UnityEngine.Debug.Log(SceneManager.GetSceneByBuildIndex(0));
-            GameController_2_2_1.LoadSceneReseted(0);
-        }
-
-        public void RestartGame()
-        {
-            GameController_2_2_1.ResetSceneData();
-            GameController_2_2_1.ReloadScene();
-        }
-
         public void DebugToggle()
         {
             OnToggleDebugUI?.Invoke();
@@ -148,10 +141,32 @@ namespace MagicBits_OSS.Shared.Scripts
             yield return new WaitForSeconds(0.5f);
             m_keyPool.Clear();
         }
-        
+
         private void OnPrivilegedAccessChange(bool state)
         {
-            debugButton.SetActive(state);
+            m_debugButton.SetActive(state);
+        }
+
+        private void OnCheckPointUpdate()
+        {
+            // Utilities.Log($"{name}: CheckPoint atualizado, conferindo UI...");
+            if (GameController_2_2_1.hasSpawn)
+                m_lastCheckPointButton.SetActive(true);
+        }
+
+        public void OnButtonRestartPressed()
+        {
+            OnRestart?.Invoke();
+        }
+
+        public void OnButtonGiveUpPressed()
+        {
+            OnGiveUp?.Invoke();
+        }
+
+        public void OnButtonLastCheckPointPressed()
+        {
+            OnLastCheckPoint?.Invoke();
         }
     }
 }
