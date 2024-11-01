@@ -43,19 +43,28 @@ namespace MagicBits_OSS.Shared.Scripts
         protected bool canMove = true;
 
         // Properties (getters and setters)
-        public bool isDead { get; private set; }
+        public bool isAlive => !isDead;
+        public bool isDead { get; private set; } = false;
         public bool isActive { get; private set; } = true;
 
-
         // Methods
-        public virtual void Start()
+        private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
             sr = GetComponent<SpriteRenderer>();
             anim = GetComponent<Animator>();
             audioSource = GetComponent<AudioSource>();
 
-            Spawn();
+            GameController_2_2_1.OnGameStarted += OnGameControllerGameStarted;
+        }
+
+        public virtual void Start()
+        {
+        }
+
+        private void OnDestroy()
+        {
+            GameController_2_2_1.OnGameStarted -= OnGameControllerGameStarted;
         }
 
         public virtual void Update()
@@ -72,6 +81,11 @@ namespace MagicBits_OSS.Shared.Scripts
                 ResetAnimation();
 
             GroundDetection();
+        }
+
+        private void OnGameControllerGameStarted()
+        {
+            SpawnOnCheckPoint();
         }
 
         public virtual void OnCollisionEnter2D(Collision2D col)
@@ -123,6 +137,7 @@ namespace MagicBits_OSS.Shared.Scripts
                 // GameController_2_2_1.IncrementFails();
             }
         }
+
         public void MoveTo(Transform newTransform)
         {
             var transform = GetComponent<Transform>();
@@ -178,7 +193,6 @@ namespace MagicBits_OSS.Shared.Scripts
         }
 
 
-
         private void ResetAnimation()
         {
             if (anim.GetBool("isRunning"))
@@ -188,7 +202,7 @@ namespace MagicBits_OSS.Shared.Scripts
         }
 
         // Spawna o jogador no ultimo checkpoint.
-        public void Spawn()
+        public void SpawnOnCheckPoint()
         {
             GameObject listSpawns = GameController_2_2_1.GetListSpawns();
             if (!listSpawns)
@@ -197,8 +211,10 @@ namespace MagicBits_OSS.Shared.Scripts
             int spawn = GameController_2_2_1.s_spawn;
             int spawnCount = listSpawns.transform.childCount;
 
-            if (spawn >= 0 && spawn < spawnCount)
+            if (spawn > -1 && spawn < spawnCount)
             {
+                Utilities.Log($"{name}: Spawning at spawn idx {spawn}");
+                
                 Transform child = listSpawns.transform.GetChild(spawn);
                 SpriteRenderer sr;
                 float offSetY = 0.5f;
