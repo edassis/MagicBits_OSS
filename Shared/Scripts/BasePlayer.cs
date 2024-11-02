@@ -112,7 +112,7 @@ namespace MagicBits_OSS.Shared.Scripts
                 Kill(timeDeadNormal);
                 // GameController_2_2_1.IncrementFails();
             }
-            else if (col.gameObject.tag == "MovingPlatform")
+            else if (col.gameObject.tag == "MovingPlatform" && gameObject.activeInHierarchy)
             {
                 transform.parent = null;
             }
