@@ -13,9 +13,9 @@ namespace MagicBits_OSS.Shared.Scripts
         // https://stackoverflow.com/a/13543600/8903027
         public const int FLOAT_MAX_PRECISION_DIGITS = 7;
         public const int DOUBLE_MAX_PRECISION_DIGITS = 15;
-        
+
         #region Event
-        
+
         /// <summary>
         /// <b>TESTE!</b><br/>
         /// Esse não recebe componente.
@@ -38,6 +38,23 @@ namespace MagicBits_OSS.Shared.Scripts
             callback();
         }
 
+        public static Task WaitCondTask(Func<bool> predicate, Action callback)
+        {
+            return new Task(WaitCond(predicate, callback));
+        }
+
+        public static IEnumerator WaitCond(Func<bool> predicate, Action callback)
+        {
+            if (predicate())
+            {
+                callback();
+                yield return null;
+            }
+
+            yield return new WaitUntil(predicate);
+            callback();
+        }
+
         public static IEnumerator SetTimeoutRoutine(Action callback, float waitTime, bool isRealTime)
         {
             if (isRealTime)
@@ -47,9 +64,9 @@ namespace MagicBits_OSS.Shared.Scripts
 
             callback();
         }
-        
+
         #endregion
-        
+
         #region Math: Base Manipulation
 
         /// <summary>
@@ -125,7 +142,7 @@ namespace MagicBits_OSS.Shared.Scripts
 
         public static string ToBaseComplement(string num, int radix)
         {
-            /* 
+            /*
             base3: -21
 
             222
@@ -220,7 +237,8 @@ namespace MagicBits_OSS.Shared.Scripts
             switch (level)
             {
                 case LogLevel.Debug:
-                    if (!Application.isEditor && !GameController_2_2_1.hasPrivilegedAccess && !Debug.isDebugBuild) return;
+                    if (!Application.isEditor && !GameController_2_2_1.hasPrivilegedAccess &&
+                        !Debug.isDebugBuild) return;
                     break;
                 case LogLevel.Editor:
                     if (!Application.isEditor) return;

@@ -67,5 +67,10 @@ namespace MagicBits_OSS.Shared.Scripts
         {
             component.StartCoroutine(Utilities.WaitEvent(unityEvent, callback));
         }
+        
+        public static void WaitCond(this MonoBehaviour component, Func<bool> predicate, Action callback)
+        {
+            component.StartCoroutine(Utilities.WaitCond(predicate, callback));
+        }
     }
 }
